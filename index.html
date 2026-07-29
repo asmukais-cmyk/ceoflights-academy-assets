@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Phone Call Matters — Sales Training</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Base ── */
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 40px 16px 60px;
+    }
+
+    /* ── Page surface ── */
+    .page {
+      width: 8.5in;
+      min-height: 11in;
+      background: #edf0f7;
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 8px 40px rgba(0, 0, 0, 0.08);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Gradient top bar + ambient wash ── */
+    .page::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 5px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #3b82f6);
+      pointer-events: none;
+    }
+    .page::after {
+      content: '';
+      position: absolute;
+      inset: 5px 0 auto 0;
+      height: 140px;
+      background: linear-gradient(180deg, rgba(59, 130, 246, 0.04), transparent);
+      pointer-events: none;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 36px 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .topbar-brand {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #94a3b8;
+    }
+    .topbar-badge {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: #3b82f6;
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.18);
+      padding: 4px 14px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 8px 36px 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-kicker {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #3b82f6;
+      margin-bottom: 10px;
+    }
+    .hero h1 {
+      font-size: 2.35rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1.12;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: #3b82f6;
+    }
+    .hero-sub {
+      font-size: 0.95rem;
+      color: #64748b;
+      line-height: 1.55;
+      max-width: 520px;
+      font-weight: 400;
+    }
+
+    /* ── Callout box ── */
+    .callout {
+      margin: 0 36px 20px;
+      padding: 20px 24px;
+      border-radius: 12px;
+      background: #e4e9f7;
+      border: 1px solid #c9d4ec;
+      border-left: 3px solid #3b82f6;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .callout-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+      margin-top: -2px;
+    }
+    .callout-text {
+      font-size: 0.95rem;
+      color: #1e293b;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+    .callout-text strong { color: #0f172a; }
+
+    /* ── Content sections ── */
+    .content {
+      padding: 0 36px;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+    .section { margin-bottom: 22px; }
+    .sec-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .sec-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.88rem;
+      flex-shrink: 0;
+      background: rgba(59, 130, 246, 0.08);
+      color: #3b82f6;
+    }
+    .sec-title {
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.2px;
+    }
+    .sec-body {
+      font-size: 0.9rem;
+      color: #475569;
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+
+    /* ── Feature cards ── */
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .card {
+      border-radius: 12px;
+      padding: 18px 18px 16px;
+      background: #f4f5fa;
+      border: 1px solid #d2d9e6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.02);
+    }
+    .card-icon {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .card-title {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+    .card-body {
+      font-size: 0.8rem;
+      line-height: 1.55;
+      color: #64748b;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: #d2d9e6;
+      margin: 4px 0 22px;
+    }
+
+    /* ── Mindset contrast ── */
+    .mindset {
+      border-radius: 12px;
+      padding: 20px 22px;
+      background: #f4f5fa;
+      border: 1px solid #d2d9e6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.02);
+      margin-bottom: 22px;
+    }
+    .mindset-title {
+      font-size: 0.66rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #3b82f6;
+      margin-bottom: 14px;
+    }
+    .contrast {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .contrast-item {
+      border-radius: 10px;
+      padding: 14px 16px;
+      background: #eaecf3;
+      border: 1px solid #d2d9e6;
+    }
+    .contrast-label {
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      color: #3b82f6;
+    }
+    .contrast-item p {
+      font-size: 0.82rem;
+      color: #475569;
+      line-height: 1.55;
+    }
+    .contrast-item p strong { color: #0f172a; }
+    .mindset-note {
+      font-size: 0.84rem;
+      color: #475569;
+      line-height: 1.6;
+    }
+    .mindset-note strong { color: #0f172a; }
+
+    /* ── Takeaways ── */
+    .takeaways {
+      border-radius: 12px;
+      padding: 20px 22px;
+      background: #f4f5fa;
+      border: 1px solid #d2d9e6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.02);
+      margin-bottom: 22px;
+    }
+    .takeaways-title {
+      font-size: 0.66rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #3b82f6;
+      margin-bottom: 14px;
+    }
+    .takeaway-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .takeaway-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.84rem;
+      line-height: 1.55;
+      color: #475569;
+    }
+    .takeaway-list li strong { color: #0f172a; }
+    .tk-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: rgba(59, 130, 246, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: #3b82f6;
+      font-weight: 900;
+    }
+
+    /* ── Closing CTA ── */
+    .closing {
+      margin: 0 36px;
+      padding: 28px 32px;
+      border-radius: 14px;
+      background: #e4e9f7;
+      border: 1px solid #c9d4ec;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .closing p {
+      font-size: 1.2rem;
+      font-weight: 800;
+      line-height: 1.5;
+      color: #0f172a;
+      letter-spacing: -0.3px;
+    }
+    .closing .sub {
+      font-size: 0.84rem;
+      color: #64748b;
+      font-weight: 500;
+      margin-top: 8px;
+    }
+
+    /* ── Bottom bar ── */
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 36px 20px;
+      border-top: 1px solid #d2d9e6;
+      position: relative;
+      z-index: 1;
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.45);
+    }
+    .bottom-left {
+      font-size: 0.68rem;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .bottom-right {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #64748b;
+      text-align: right;
+      line-height: 1.4;
+    }
+    .bottom-right strong {
+      color: #0f172a;
+      display: block;
+      font-size: 0.95rem;
+    }
+
+    /* ── Responsive ── */
+    @media screen and (max-width: 700px) {
+      .page { width: 100%; min-height: auto; }
+      .cards { grid-template-columns: 1fr; }
+      .contrast { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 1.6rem; }
+      .topbar, .hero, .content, .closing, .bottom { padding-left: 20px; padding-right: 20px; }
+      .callout, .closing { margin-left: 20px; margin-right: 20px; }
+      .bottom { flex-direction: column; gap: 16px; align-items: flex-start; }
+    }
+
+    /* ── Print ── */
+    @media print {
+      html, body { background: none; }
+      .page { box-shadow: none; margin: 0; width: 100%; min-height: auto; page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-brand">CEOFLIGHTS</div>
+    <div class="topbar-badge">Sales Training</div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-kicker">● Sales Fundamentals</div>
+    <h1>The Phone Call Is Where<br><em>Sales Happen</em></h1>
+    <p class="hero-sub">Email and SMS are tools. The phone is where trust is built — and trust is what sells.</p>
+  </div>
+
+  <!-- Callout -->
+  <div class="callout">
+    <div class="callout-icon">📞</div>
+    <div class="callout-text">You do not really sell new customers through email or text alone. With a new lead, <strong>the phone is where the real sale starts.</strong> That is where you stop being just another quote in an inbox.</div>
+  </div>
+
+  <div class="content">
+
+    <!-- Section 1 -->
+    <div class="section">
+      <div class="sec-header">
+        <div class="sec-num">1</div>
+        <div class="sec-title">Why the Phone Changes Everything</div>
+      </div>
+      <p class="sec-body">If you only send a price quote, it is very easy for the customer to ignore you. You are just a name, a message, an avatar. There is no real connection. On the phone, everything changes.</p>
+    </div>
+
+    <!-- Cards -->
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">⚡</span>
+        <div class="card-title">Immediate Feedback</div>
+        <div class="card-body">You hear how the customer reacts to the option in real time — not hours later by re-reading an email.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🎯</span>
+        <div class="card-title">Real-Time Adjustments</div>
+        <div class="card-body">You can answer objections, pivot your offer, and dial in on what matters most — before you lose the lead.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🤝</span>
+        <div class="card-title">Genuine Trust</div>
+        <div class="card-body">A voice builds more trust in 2 minutes than 10 follow-up messages. Customers buy from people, not emails.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔍</span>
+        <div class="card-title">You Learn What's Really Going On</div>
+        <div class="card-body">Dates, budgets, hesitations — customers share things on the phone they would never bother typing out.</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Section 2 -->
+    <div class="section">
+      <div class="sec-header">
+        <div class="sec-num">2</div>
+        <div class="sec-title">Why Agents Avoid the Phone</div>
+      </div>
+      <p class="sec-body">Some agents avoid calls because rejection feels more real on the phone. You hear it immediately — it feels personal. With email or text, it is easier to hide behind silence and tell yourself the customer is just busy. But the phone also has the biggest upside. The risk of rejection feels higher. But the reward is much higher too.</p>
+    </div>
+
+    <!-- Mindset block -->
+    <div class="mindset">
+      <div class="mindset-title">🧠 The Right Mindset</div>
+      <div class="contrast">
+        <div class="contrast-item">
+          <div class="contrast-label">❌ Wrong Approach</div>
+          <p>Going into the call trying to <strong>force a sale.</strong> Customers feel pressure instantly — they put their guard up.</p>
+        </div>
+        <div class="contrast-item">
+          <div class="contrast-label">✅ Right Approach</div>
+          <p>Going into the call trying to <strong>genuinely help.</strong> Customers relax, open up, and engage honestly.</p>
+        </div>
+      </div>
+      <p class="mindset-note">You are not there to push. You are there to <strong>understand what they need</strong>, do your best to find something valuable, and let them decide. That approach builds trust — and trust is what sells.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Takeaways -->
+    <div class="takeaways">
+      <div class="takeaways-title">🎯 The Takeaways</div>
+      <ul class="takeaway-list">
+        <li>
+          <div class="tk-check">✓</div>
+          <span>Email and SMS are for follow-ups and referrals — <strong>not for closing new leads.</strong></span>
+        </li>
+        <li>
+          <div class="tk-check">✓</div>
+          <span>The phone gives you real-time feedback you cannot get from a quote that sits in someone's inbox.</span>
+        </li>
+        <li>
+          <div class="tk-check">✓</div>
+          <span>A lot of sales are lost because the agent sends a quote and <strong>waits</strong> — and never finds out why the customer went silent.</span>
+        </li>
+        <li>
+          <div class="tk-check">✓</div>
+          <span>Rejection stings more on the phone — but <strong>so does a win.</strong> Face the risk where the reward is real.</span>
+        </li>
+        <li>
+          <div class="tk-check">✓</div>
+          <span>Call with the goal of <strong>helping, not selling.</strong> Customers feel the difference instantly.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Closing CTA -->
+  <div class="closing">
+    <p>Ask good questions.<br>Listen carefully.<br>Focus on helping.</p>
+    <p class="sub">That is where real selling happens.</p>
+  </div>
+
+  <!-- Bottom -->
+  <div class="bottom">
+    <div class="bottom-left">CEOFLIGHTS — Sales Training</div>
+    <div class="bottom-right">
+      <strong>Every call is an opportunity.</strong>
+      Pick up the phone.
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
