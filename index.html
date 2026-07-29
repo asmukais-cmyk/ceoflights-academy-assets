@@ -14,23 +14,18 @@
       font-family: 'Inter', sans-serif;
       background: #fff;
       color: #1e293b;
-      min-height: 0;
-      display: block;
-      
+      margin: 0;
       padding: 0;
     }
 
     /* ── Page surface ── */
     .page {
-      width: 8.5in;
-      
+      width: 100%;
+      max-width: 816px;
+      margin: 0 auto;
       background: #edf0f7;
-      
-      
       position: relative;
       overflow: hidden;
-      display: block;
-      flex-direction: column;
     }
 
     /* ── Gradient top bar + ambient wash ── */
@@ -53,7 +48,7 @@
 
     /* ── Top bar ── */
     .topbar {
-      display: block;
+      display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 18px 36px 14px;
@@ -123,7 +118,7 @@
       border-left: 3px solid #3b82f6;
       position: relative;
       z-index: 1;
-      display: block;
+      display: flex;
       gap: 16px;
       align-items: flex-start;
     }
@@ -145,11 +140,11 @@
       padding: 0 36px;
       position: relative;
       z-index: 1;
-      
+      flex: 1;
     }
     .section { margin-bottom: 22px; }
     .sec-header {
-      display: block;
+      display: flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 10px;
@@ -158,9 +153,9 @@
       width: 30px;
       height: 30px;
       border-radius: 8px;
-      display: block;
+      display: flex;
       align-items: center;
-      
+      justify-content: center;
       font-weight: 900;
       font-size: 0.88rem;
       flex-shrink: 0;
@@ -287,12 +282,12 @@
     }
     .takeaway-list {
       list-style: none;
-      display: block;
+      display: flex;
       flex-direction: column;
       gap: 10px;
     }
     .takeaway-list li {
-      display: block;
+      display: flex;
       align-items: flex-start;
       gap: 12px;
       font-size: 0.84rem;
@@ -305,9 +300,9 @@
       height: 22px;
       border-radius: 6px;
       background: rgba(59, 130, 246, 0.08);
-      display: block;
+      display: flex;
       align-items: center;
-      
+      justify-content: center;
       font-size: 0.65rem;
       flex-shrink: 0;
       margin-top: 1px;
@@ -342,7 +337,7 @@
 
     /* ── Bottom bar ── */
     .bottom {
-      display: block;
+      display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 16px 36px 20px;
