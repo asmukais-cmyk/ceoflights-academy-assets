@@ -15,13 +15,14 @@
     html, body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-font-smoothing: antialiased;
-      background: #fff;
+      background: #edf0f7;
+      overflow-x: hidden;
     }
 
     /* ── Page surface ── */
     .page {
-      width: 8.5in;
-      min-height: 11in;
+      width: 100%;
+      max-width: 8.5in;
       margin: 0 auto;
       background: #edf0f7;
       color: #1e293b;
@@ -29,7 +30,6 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 8px 40px rgba(0, 0, 0, 0.08);
     }
 
     /* ── Gradient top bar + ambient wash ── */
@@ -424,13 +424,13 @@
 
     /* ── Benefit legend (page 2) ── */
     .legend {
-      width: 8.5in;
-      margin: 24px auto 0;
+      width: 100%;
+      max-width: 8.5in;
+      margin: 0 auto;
       background: #edf0f7;
       border-top: 2px solid rgba(59, 130, 246, 0.15);
       padding: 28px 36px 32px;
       position: relative;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 8px 40px rgba(0, 0, 0, 0.08);
     }
     .legend-title {
       font-size: 0.7rem;
