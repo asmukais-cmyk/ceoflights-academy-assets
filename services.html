@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services Flyer — CEOFLIGHTS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Base ── */
+    html, body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      background: #fff;
+    }
+
+    /* ── Page surface ── */
+    .page {
+      width: 8.5in;
+      min-height: 11in;
+      margin: 0 auto;
+      background: #edf0f7;
+      color: #1e293b;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 8px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    /* ── Gradient top bar + ambient wash ── */
+    .page::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 5px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #3b82f6);
+      pointer-events: none;
+    }
+    .page::after {
+      content: '';
+      position: absolute;
+      inset: 5px 0 auto 0;
+      height: 140px;
+      background: linear-gradient(180deg, rgba(59, 130, 246, 0.04), transparent);
+      pointer-events: none;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 36px 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .topbar-brand {
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #94a3b8;
+    }
+    .topbar-badge {
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #3b82f6;
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.18);
+      padding: 4px 14px;
+      border-radius: 20px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 20px 36px 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero h1 {
+      font-size: 2.15rem;
+      font-weight: 900;
+      letter-spacing: -0.8px;
+      line-height: 1.15;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .hero h1 span { color: #3b82f6; }
+    .hero-sub {
+      font-size: 0.92rem;
+      color: #64748b;
+      max-width: 480px;
+      line-height: 1.55;
+    }
+
+    /* ── 4-step grid ── */
+    .steps {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      padding: 16px 36px 0;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      align-items: stretch;
+    }
+
+    /* ── Step cards ── */
+    .step-card {
+      border-radius: 14px;
+      padding: 22px 22px 20px;
+      position: relative;
+      background: #f4f5fa;
+      border: 1px solid #d2d9e6;
+      border-left: 4px solid #cbd5e1;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.02);
+    }
+    .step-card.s1 { border-left-color: #10b981; grid-column: 1 / -1; }
+    .step-card.s2 { border-left-color: #3b82f6; }
+    .step-card.s3 { border-left-color: #8b5cf6; }
+    .step-card.s4 { border-left-color: #f59e0b; grid-column: 1 / -1; }
+
+    .sc-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .sc-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.88rem;
+      flex-shrink: 0;
+      background: rgba(59, 130, 246, 0.08);
+      color: #3b82f6;
+    }
+    .sc-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #94a3b8;
+    }
+    .sc-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      color: #0f172a;
+    }
+    .sc-when {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: #3b82f6;
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.18);
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-left: auto;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    /* ── Script callout ── */
+    .sc-script {
+      background: #e4e9f7;
+      border: 1px solid #c9d4ec;
+      border-left: 3px solid #3b82f6;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 0.88rem;
+      font-style: italic;
+      font-weight: 600;
+      color: #1e293b;
+      line-height: 1.6;
+      position: relative;
+    }
+    .sc-script::before {
+      content: '\201C';
+      font-size: 2rem;
+      position: absolute;
+      top: 4px;
+      left: 10px;
+      color: #b0bcd4;
+      font-style: normal;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .sc-script .sc-script-text { padding-left: 14px; }
+
+    /* ── Step 1: Plant the Seed ── */
+    .s1-inner {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+    .s1-icon-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .s1-icon-wrap svg { width: 24px; height: 24px; color: #3b82f6; }
+    .s1-content { flex: 1; }
+    .s1-note {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-top: 10px;
+      line-height: 1.45;
+    }
+    .s1-note strong { color: #334155; }
+
+    /* ── Step 2: Yes/No branches ── */
+    .mini-branches {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .mini-branch {
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      background: #eaecf3;
+      border: 1px solid #d2d9e6;
+    }
+    .mini-branch-label {
+      font-size: 0.58rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      color: #3b82f6;
+    }
+    .mini-branch-text {
+      font-style: italic;
+      color: #475569;
+    }
+    .s2-tip {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: #e4e9f7;
+      border: 1px solid #c9d4ec;
+      font-size: 0.8rem;
+      color: #475569;
+      line-height: 1.45;
+    }
+    .s2-tip strong { color: #3b82f6; font-weight: 700; }
+
+    /* ── Step 3: Benefit rows ── */
+    .step-intro {
+      font-size: 0.78rem;
+      color: #64748b;
+      line-height: 1.45;
+    }
+    .bp-section-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin: 8px 0 4px;
+    }
+    .bp-section-label:first-of-type { margin-top: 2px; }
+    .benefit-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .br {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      padding: 5px 12px;
+      border-radius: 6px;
+      background: #eaecf3;
+      border: 1px solid #d2d9e6;
+    }
+    .br-name {
+      font-weight: 800;
+      color: #3b82f6;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .br-desc {
+      color: #475569;
+      font-weight: 500;
+      font-size: 0.76rem;
+    }
+
+    /* ── Step 4: Outcomes ── */
+    .s4-outcomes {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .s4-out {
+      flex: 1;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 0.82rem;
+      background: #eaecf3;
+      border: 1px solid #d2d9e6;
+    }
+    .s4-out-label {
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      color: #3b82f6;
+    }
+    .s4-out em {
+      font-size: 0.8rem;
+      color: #475569;
+      line-height: 1.4;
+    }
+
+    /* ── Rules strip ── */
+    .rules {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 36px;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .rules-label {
+      font-size: 0.62rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      flex-shrink: 0;
+    }
+    .rules-sep {
+      width: 1px;
+      height: 16px;
+      background: #d2d9e6;
+      flex-shrink: 0;
+    }
+    .rule-item {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #64748b;
+      padding: 3px 10px;
+      background: #f4f5fa;
+      border: 1px solid #d2d9e6;
+      border-radius: 6px;
+    }
+
+    /* ── Bottom bar ── */
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 36px 20px;
+      border-top: 1px solid #d2d9e6;
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.45);
+    }
+    .bottom-bonus {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .bonus-chip { text-align: center; padding: 6px 0; }
+    .bonus-chip-rate {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+    }
+    .bonus-chip-amount {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: #475569;
+    }
+    .bonus-chip.best .bonus-chip-amount {
+      color: #3b82f6;
+      font-size: 1.15rem;
+    }
+    .bonus-sep {
+      width: 1px;
+      height: 28px;
+      background: #d2d9e6;
+    }
+    .bottom-cta {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #64748b;
+      text-align: right;
+      line-height: 1.4;
+    }
+    .bottom-cta strong {
+      color: #0f172a;
+      display: block;
+      font-size: 0.95rem;
+    }
+
+    /* ── Benefit legend (page 2) ── */
+    .legend {
+      width: 8.5in;
+      margin: 24px auto 0;
+      background: #edf0f7;
+      border-top: 2px solid rgba(59, 130, 246, 0.15);
+      padding: 28px 36px 32px;
+      position: relative;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 8px 40px rgba(0, 0, 0, 0.08);
+    }
+    .legend-title {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #3b82f6;
+      margin-bottom: 20px;
+    }
+    .legend-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 28px;
+    }
+    .legend-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .legend-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      width: 24px;
+      text-align: center;
+      padding-top: 1px;
+    }
+    .legend-body { flex: 1; }
+    .legend-name {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 3px;
+    }
+    .legend-detail {
+      font-size: 0.78rem;
+      color: #64748b;
+      line-height: 1.5;
+    }
+    .legend-detail strong {
+      color: #334155;
+      font-weight: 700;
+    }
+    .legend-divider {
+      grid-column: 1 / -1;
+      height: 1px;
+      background: #d2d9e6;
+      margin: 4px 0;
+    }
+    .legend-section {
+      grid-column: 1 / -1;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+    .legend-disclaimer {
+      grid-column: 1 / -1;
+      margin-top: 8px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      background: #f4f5fa;
+      border: 1px solid #d2d9e6;
+      font-size: 0.68rem;
+      color: #64748b;
+      line-height: 1.55;
+    }
+    .legend-disclaimer strong { color: #334155; }
+
+    /* ── Responsive ── */
+    @media screen and (max-width: 700px) {
+      .page { width: 100%; min-height: auto; }
+      .steps { grid-template-columns: 1fr; padding: 20px 20px 0; }
+      .step-card.s1, .step-card.s4 { grid-column: 1; }
+      .hero h1 { font-size: 1.6rem; }
+      .topbar, .hero, .rules, .bottom { padding-left: 20px; padding-right: 20px; }
+      .mini-branches { grid-template-columns: 1fr; }
+      .s4-outcomes { flex-direction: column; }
+      .s1-inner { flex-direction: column; }
+      .bottom { flex-direction: column; gap: 16px; align-items: flex-start; }
+      .legend { width: 100%; padding: 24px 20px; }
+      .legend-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Print ── */
+    @media print {
+      html, body { background: none; }
+      .page { box-shadow: none; margin: 0; width: 100%; min-height: auto; page-break-inside: avoid; }
+      .legend { width: 100%; page-break-before: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-brand">CEOFLIGHTS</div>
+    <div class="topbar-badge">Sales Playbook</div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>How to Offer <span>Services</span> on Every Lead</h1>
+    <p class="hero-sub">TPP &amp; Flexible Ticket in 60 seconds — 4 steps to hit 60%+ attachment and earn your $450 bonus.</p>
+  </div>
+
+  <!-- 4 Steps -->
+  <div class="steps">
+
+    <!-- STEP 1 -->
+    <div class="step-card s1">
+      <div class="sc-top">
+        <div class="sc-num">1</div>
+        <div>
+          <div class="sc-label">Before Sending the OAF</div>
+          <div class="sc-title">Plant the Seed</div>
+        </div>
+        <div class="sc-when">Most Important</div>
+      </div>
+      <div class="s1-inner">
+        <div class="s1-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>
+        </div>
+        <div class="s1-content">
+          <div class="sc-script">
+            <div class="sc-script-text">"Perfect, [Name]. I'm sending you our secure payment form now. On it you'll see the flight details, passenger info, and a section with a couple of optional travel protection features — you can select or decline, no strings attached. Just want you to know they're there."</div>
+          </div>
+          <div class="s1-note"><strong>Say this every time</strong> before sending the OAF. Then walk through the form as normal. When you reach the Services section → Step 2.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-card s2">
+      <div class="sc-top">
+        <div class="sc-num">2</div>
+        <div>
+          <div class="sc-label">At the Services Section</div>
+          <div class="sc-title">Ask One Question</div>
+        </div>
+      </div>
+      <div class="sc-script">
+        <div class="sc-script-text">"This is the section I mentioned. Quick question — have you ever gone with travel protection, or do you typically skip it?"</div>
+      </div>
+      <div class="mini-branches">
+        <div class="mini-branch">
+          <div class="mini-branch-label">If Yes</div>
+          <div class="mini-branch-text">"What makes it worth it for you?"</div>
+        </div>
+        <div class="mini-branch">
+          <div class="mini-branch-label">If No</div>
+          <div class="mini-branch-text">"Haven't found one worth it, or never came up?"</div>
+        </div>
+      </div>
+      <div class="s2-tip">
+        <strong>Goal:</strong> Uncover their mindset before offering. Listen carefully to match the right 2 benefits in Step 3.
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-card s3">
+      <div class="sc-top">
+        <div class="sc-num">3</div>
+        <div>
+          <div class="sc-label">Based on What They Said</div>
+          <div class="sc-title">Match 2 Benefits</div>
+        </div>
+      </div>
+      <p class="step-intro">Pick the 2 most relevant. Never list them all.</p>
+
+      <div class="bp-section-label">TPP — 8% of ticket, min $59.95 /person</div>
+      <div class="benefit-rows">
+        <div class="br"><div class="br-name">✈️ Connections</div><div class="br-desc">Missed connection → we rebook free</div></div>
+        <div class="br"><div class="br-name">🏥 Illness</div><div class="br-desc">Can't fly → we advocate for refund/credit*</div></div>
+        <div class="br"><div class="br-name">⏱️ Delays</div><div class="br-desc">Cancelled/delayed 3h+ → rebook + compensation</div></div>
+        <div class="br"><div class="br-name">💰 Price drop</div><div class="br-desc">Fare drops within 24h → voucher (1yr valid)</div></div>
+        <div class="br"><div class="br-name">⭐ Priority</div><div class="br-desc">24/7 priority desk for changes &amp; requests</div></div>
+      </div>
+
+      <div class="bp-section-label">FT — 6% of ticket, min $149.95 /person</div>
+      <div class="benefit-rows">
+        <div class="br"><div class="br-name">📅 Date change</div><div class="br-desc">Airline + agency fees waived — fare difference may apply</div></div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step-card s4">
+      <div class="sc-top">
+        <div class="sc-num">4</div>
+        <div>
+          <div class="sc-label">After Sharing Benefits</div>
+          <div class="sc-title">Close &amp; Move On</div>
+        </div>
+      </div>
+      <div class="sc-script">
+        <div class="sc-script-text">"Does either of those feel like it would make sense for your trip?"</div>
+      </div>
+      <div class="s4-outcomes">
+        <div class="s4-out">
+          <div class="s4-out-label">They Say Yes</div>
+          <em>"Great. Select that on the form and we'll move to payment."</em>
+        </div>
+        <div class="s4-out">
+          <div class="s4-out-label">They Decline</div>
+          <em>"No problem. Select 'No' and we'll move forward."</em>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Rules -->
+  <div class="rules">
+    <div class="rules-label">Never</div>
+    <div class="rules-sep"></div>
+    <div class="rule-item">Call it "insurance"</div>
+    <div class="rule-item">Push after decline</div>
+    <div class="rule-item">List all benefits</div>
+    <div class="rule-item">Skip on any booking</div>
+  </div>
+
+  <!-- Bottom -->
+  <div class="bottom">
+    <div class="bottom-bonus">
+      <div class="bonus-chip">
+        <div class="bonus-chip-rate">40–49%</div>
+        <div class="bonus-chip-amount">$250</div>
+      </div>
+      <div class="bonus-sep"></div>
+      <div class="bonus-chip">
+        <div class="bonus-chip-rate">50–59%</div>
+        <div class="bonus-chip-amount">$350</div>
+      </div>
+      <div class="bonus-sep"></div>
+      <div class="bonus-chip best">
+        <div class="bonus-chip-rate">60%+</div>
+        <div class="bonus-chip-amount">$450</div>
+      </div>
+    </div>
+    <div class="bottom-cta">
+      <strong>Every lead. Every booking.</strong>
+      60 seconds is all it takes.
+    </div>
+  </div>
+
+</div>
+
+<!-- Benefit Reference Legend -->
+<div class="legend">
+  <div class="legend-title">Benefit Reference — What Each One Actually Covers</div>
+  <div class="legend-grid">
+
+    <div class="legend-section">Ticket Protection Plus (TPP) — 8% of ticket, min $59.95 /person</div>
+
+    <div class="legend-item">
+      <div class="legend-icon">✈️</div>
+      <div class="legend-body">
+        <div class="legend-name">Connections</div>
+        <div class="legend-detail"><strong>What it covers:</strong> If the customer misses a connection due to a delay or weather, we rebook them at no charge — no airline fees, no agency fees. Subject to seat availability in the same booking class.</div>
+      </div>
+    </div>
+
+    <div class="legend-item">
+      <div class="legend-icon">⏱️</div>
+      <div class="legend-body">
+        <div class="legend-name">Delays &amp; Cancellations</div>
+        <div class="legend-detail"><strong>What it covers:</strong> If the flight is cancelled or delayed 3+ hours, we handle the rebooking — our agency fees are waived, but fare differences may apply depending on seat availability in the same booking class. And if they arrive 3+ hours late because of the airline, we file a compensation claim on their behalf.</div>
+      </div>
+    </div>
+
+    <div class="legend-item">
+      <div class="legend-icon">💰</div>
+      <div class="legend-body">
+        <div class="legend-name">Price Drop Protection</div>
+        <div class="legend-detail"><strong>What it covers:</strong> We monitor the fare for 24 hours after booking. If it drops, the customer gets a voucher for the difference — valid for a full year.</div>
+      </div>
+    </div>
+
+    <div class="legend-item">
+      <div class="legend-icon">⭐</div>
+      <div class="legend-body">
+        <div class="legend-name">Priority Support</div>
+        <div class="legend-detail"><strong>What it covers:</strong> 24/7 priority access to our support desk — seat assignments, special meals, any changes — they go straight to the front of the line.</div>
+      </div>
+    </div>
+
+    <div class="legend-item" style="grid-column: 1 / -1;">
+      <div class="legend-icon">🏥</div>
+      <div class="legend-body">
+        <div class="legend-name">Illness*</div>
+        <div class="legend-detail"><strong>What it covers:</strong> If they get sick and can't travel, we go directly to our airline contacts and advocate on their behalf for a refund or credit. They need a doctor's note. <strong>Important:</strong> The refund is not guaranteed — the airline reviews each case and makes the final decision based on their own policy. Our job is to fight for the best outcome, but we cannot promise a specific result. <strong>How to sell it:</strong> "We go to bat for you with the airline" — sell on our advocacy, not on a guaranteed refund.</div>
+      </div>
+    </div>
+
+    <div class="legend-divider"></div>
+    <div class="legend-section">Flexible Ticket (FT) — 6% of ticket, min $149.95 /person</div>
+
+    <div class="legend-item" style="grid-column: 1 / -1;">
+      <div class="legend-icon">📅</div>
+      <div class="legend-body">
+        <div class="legend-name">Date Change</div>
+        <div class="legend-detail"><strong>What it covers:</strong> We waive our agency fee and the airline change fee is also waived — but the <strong>fare difference still applies</strong> if the new fare is higher. It depends on seat availability at the time of the change. <strong>Key conditions:</strong> First change only. Must be requested at least 72 hours before departure. Same airline and route only. Changes must be made through us — not directly with the airline. <strong>Important:</strong> Do NOT promise the change is always free. If seats are only available in a higher fare class, the customer pays the difference.</div>
+      </div>
+    </div>
+
+    <div class="legend-divider"></div>
+    <div class="legend-disclaimer">
+      <strong>* Illness disclaimer:</strong> When a customer can't travel due to illness, we contact the airline directly with a doctor's note and advocate for a full refund or credit. However, the final decision always rests with the airline based on their policy. Some airlines grant full refunds, others offer credits or exchanges only. <strong>Sell on our advocacy, not on a guaranteed outcome.</strong> Say: "We go directly to the airline and fight for the best result" — never promise a specific refund.
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
